@@ -1,0 +1,58 @@
+h1 Let's Get Intimate...
+.panel.panel-default
+  .panel-body
+    p Welcome to the CoinFi community!
+    p By entering your email, you just stepped into elite company - top digital currency thought leaders get their crypto news each morning from CoinFi because it delivers the information you need to stay up-to-date on this rapidly changing industry.
+    p As you read this, our #{link_to "professional editorial team", "/about"} is slaving away, researching, analyzing, and handcrafting tomorrow's edition that distills everything you need to know into a single, concise, daily email that you can scan and digest in 5 minutes or less.
+    p We'd thrilled to have you on board - but first, we'd like to get to know you better though. This info will help us serve you with the targeted information you care about most.
+    = form_tag 'segment'
+      .question
+        strong Which cryptocurrencies do you own?
+        - @maincoins.each do |coin_sym, coin_name|
+          .checkbox
+            label
+              = check_box_tag 'preferences[]', "Coin:#{coin_sym}"
+              = "#{coin_name} (#{coin_sym})"
+        a#more-link href="#" More
+        #more-coins.hidden
+          - @altcoins.each do |coin_sym, coin_name|
+            .checkbox
+              label
+                = check_box_tag 'preferences[]', "Coin:#{coin_sym}"
+                = "#{coin_name} (#{coin_sym})"
+      .question
+        strong How do you trade?
+        .checkbox
+          label
+            = check_box_tag 'preferences[]', "Trade:BuyAndHold"
+            | Buy and hold (aka HODL, "Hold onto dear life!")
+        .checkbox
+          label
+            = check_box_tag 'preferences[]', "Trade:DayTrading"
+            | Day trading
+        .checkbox
+          label
+            = check_box_tag 'preferences[]', "Trade:AutomatedTrading"
+            | Automated trading
+      .question
+        strong Which exchanges do you use?
+        - @exchanges.each do |exchange|
+          .checkbox
+            label
+              = check_box_tag 'preferences[]', "Exchange:#{exchange}"
+              = exchange
+      .question
+        strong What kind of content are you interested in?
+        .checkbox
+          label
+            = check_box_tag 'preferences[]', "Content:MarketInfo"
+            | Timely market info
+        .checkbox
+          label
+            = check_box_tag 'preferences[]', "Content:ICOs"
+            | Tips on upcoming altcoins / ICOs
+        .checkbox
+          label
+            = check_box_tag 'preferences[]', "Content:ThoughtPieces"
+            | In-depth thought pieces
+      = submit_tag "Boom, That's Right!", class: 'btn btn-success'
