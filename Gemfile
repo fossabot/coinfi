@@ -47,6 +47,7 @@ gem 'omniauth-twitter'
 gem 'rack-cors'
 gem 'rollbar'
 gem 'slim-rails'
+gem 'twitter'
 gem 'wombat'
 
 # Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
