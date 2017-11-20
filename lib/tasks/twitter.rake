@@ -1,3 +1,4 @@
+require 'pony'
 require 'twitter'
 
 TICKERS = %w(
@@ -14,6 +15,7 @@ TICKERS = %w(
 ).freeze
 
 keywords = ENV.fetch('TWITTER_SCAN_KEYWORDS', '').split(',')
+mail_text = ''
 
 namespace :twitter do
   task :scan => :environment do
@@ -25,14 +27,35 @@ namespace :twitter do
     end
 
     TICKERS.each do |ticker|
-      puts "Scanning #{ticker} on Twitter..."
+      ticker_text = "Scanning #{ticker} on Twitter...\n"
+      puts ticker_text
+      mail_text << ticker_text
       client.search("#{ticker}", result_type: "recent").take(50).collect do |tweet|
         if keywords.any? { |keyword| tweet.text.downcase.include? keyword }
-          puts tweet.id, tweet.text, tweet.created_at, "\n"
-          # Send email
+          text = "https://twitter.com/statuses/#{tweet.id}\n#{tweet.text}\n#{tweet.created_at}\n\n"
+          puts text
+          mail_text << text
         end
       end
-      sleep(rand(30..90)) # 30 - 90 second sleep
+      sleep(rand(3..5)) # 30 - 90 second sleep
     end
+
+    Pony.mail({
+      from: 'alerts@coinfi.com',
+      to: 'admin@coinfi.com',
+      subject: 'Twitter Alert',
+      body: mail_text,
+      charset: 'utf-8',
+      via: :smtp,
+      via_options: {
+        address: 'smtp.webfaction.com',
+        port: 587,
+        enable_starttls_auto: true,
+        user_name: 'coinfi',
+        password: ENV.fetch('WEBFACTION_SMTP_PASSWORD'),
+        authentication: :plain,
+        domain: 'coinfi.com',
+      }
+    })
   end
 end
