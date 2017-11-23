@@ -52,5 +52,6 @@ Rails.application.routes.draw do
 
   resources :coins, only: [:index, :show]
 
-  get '/historical/:symbol' => 'data#historical'
+  get '/historical/daily/:symbol' => 'data#historical_daily'
+  get '/historical/hourly/:symbol' => 'data#historical_hourly'
 end

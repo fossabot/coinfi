@@ -77,10 +77,88 @@ $(function() {
     });
   })(Highcharts);
 
-  if (window.location.href.indexOf("/coins/") > -1) {
-    var name = $('#name').text();
-    var symbol = $('#symbol').text();
-    $.getJSON('/historical/' + symbol.toLowerCase() + '.json', function (data) {
+  $('#hourlyChart').click(function() {
+    displayHourlyChart();
+  });
+
+  $('#dailyChart').click(function() {
+    displayDailyChart();
+  });
+
+  var displayHourlyChart = function() {
+    $.getJSON('/historical/hourly/' + symbol.toLowerCase() + '.json', function(data) {
+      Highcharts.stockChart('chart', {
+        tooltip: {
+          style: {
+            width: '200px'
+          },
+          valueDecimals: 4,
+          xDateFormat: '%A, %b %e, %Y',
+          useHTML: true,
+          hideDelay: 1000,
+          shared: true
+        },
+        rangeSelector: {
+          buttons: [{
+            type: 'hour',
+            count: 1,
+            text: '1h'
+          }, {
+            type: 'day',
+            count: 1,
+            text: '1D'
+          }, {
+            type: 'all',
+            count: 1,
+            text: 'All'
+          }],
+          selected: 1,
+          inputEnabled: false
+        },
+        yAxis: [{
+          labels: {
+            align: 'right',
+            x: -3
+          },
+          title: {
+            text: 'USD Price'
+          },
+          height: '60%',
+          lineWidth: 2
+        }, {
+          labels: {
+            align: 'right',
+            x: -3
+          },
+          title: {
+            text: 'Volume'
+          },
+          top: '65%',
+          height: '35%',
+          offset: 0,
+          lineWidth: 2
+        }],
+        series: [{
+          name: symbol,
+          type: 'candlestick',
+          data: data.prices, // [timestamp, open, hi, lo, close]
+          tooltip: {
+            valueDecimals: 2
+          }
+        }, {
+          id: 'volume',
+          type: 'column',
+          name: 'Volume',
+          data: data.volume,
+          yAxis: 1,
+          color: Highcharts.getOptions().colors[2]
+        }]
+      });
+    });
+  }
+
+  var displayDailyChart = function() {
+    $.getJSON('/historical/daily/' + symbol.toLowerCase() + '.json', function(data) {
       var historical = data["prices"],
           news = data["news"],
           prices = [],
@@ -240,5 +318,11 @@ $(function() {
         }]
       });
     });
+  }
+
+  if (window.location.href.indexOf("/coins/") > -1) {
+    var name = $('#name').text();
+    var symbol = $('#symbol').text();
+    displayDailyChart();
   }
 });
