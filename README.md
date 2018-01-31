@@ -1,4 +1,6 @@
 # CoinFi
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdfligor%2Fcoinfi.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdfligor%2Fcoinfi?ref=badge_shield)
+
 ## The Cryptocurrency Market Intelligence Platform
 https://www.coinfi.com
 
@@ -75,3 +77,7 @@ Prototype: Initial trading signals: [Commit `45150ca` on Nov 9, 2017](https://gi
 **2019Q4: Combining / Customizing Signals**
 
 Note that the roadmap outlined above is subject to change based on user feedback, market conditions, and the competitive landscape. It is merely intended as an overview to explain the features that CoinFi intends to implement on the platform.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdfligor%2Fcoinfi.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdfligor%2Fcoinfi?ref=badge_large)
